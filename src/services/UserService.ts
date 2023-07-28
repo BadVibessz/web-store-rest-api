@@ -25,7 +25,7 @@ export class UserService {
         return this._db.getUserByEmail(email)
     }
 
-    async create(firstName, lastName, email, password) {
+    async create(firstName: string, lastName: string, email: string, password: string) {
     
         var user = await this._db.getUserByEmail(email)
 

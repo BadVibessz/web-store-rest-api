@@ -1,11 +1,10 @@
-import { NextFunction, Request, Response } from "express"
-import { User } from "../entities/User"
-import { compareSync, genSaltSync, hashSync } from "bcryptjs"
+import {  Request, Response } from "express"
+import { compareSync } from "bcryptjs"
 import { UserService } from "../services/UserService"
 import {JwtUtils} from "../utils/JwtUtils"
 
 
-export class AuthController{
+export class AuthController{ //todo: call authService?
 
     private readonly _userService = new UserService()
 
@@ -18,15 +17,10 @@ export class AuthController{
 
             const {firstName, lastName, email, password} = request.body
 
-            const user = await this._userService.getByEmail(email)
-
-            if(user) return response.status(400).json({message: "User with this email already exists"})
-
             const success = await this._userService.create(firstName,lastName,email,password)
             
-            if(success)
-                return response.status(200).json({message: "You have sucessfully registered!"})
-            return response.status(400).json({message: "Something went wrong"})
+            if(success) return response.status(200).json({message: "You have sucessfully registered!"})
+            return response.status(400).json({message: "User with this email already exists"})
         }
         catch(e){
             console.log(e)
@@ -34,7 +28,7 @@ export class AuthController{
         }
     }
 
-    async login(request: Request, response: Response){
+    async login(request: Request, response: Response){ // todo: use dto
 
         // todo: prevent code copying, make function (serivce?) and use in userController and here
         const {email, password} = request.body
@@ -51,7 +45,7 @@ export class AuthController{
             lastName: user.lastName,
             email: user.email}
 
-        const options = {expiresIn: "1h"}
+        const options = {expiresIn: "7d"}
 
         const token = JwtUtils.generateToken(payload, options)
         return response.status(200).json({token: token})

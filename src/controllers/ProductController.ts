@@ -43,18 +43,15 @@ export class ProductController extends CRUDController{
          
     }
     
-    async create(request: Request, response: Response) {
+    async create(request: Request, response: Response) { // todo: return to client created product?
 
         try{
-            
             const authenticated = this._authMiddleware.authenticate(request, request)
             if(!authenticated)
                 return response.status(401).json({message: "User unauthorized"})
 
             const {title, description, price} = request.body
                 
-
-
             const success = await this._productService.create(title, description, price)
     
             if(!success) return response.status(400).json({message: "Product not created due to an error"})

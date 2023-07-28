@@ -4,6 +4,7 @@ import { User } from "../entities/User"
 import { Product } from "../entities/Product";
 import { Order } from "../entities/Order";
 import { OrderItem } from "../entities/OrderItem";
+import { Cart } from "../entities/Cart";
 
 export class DatabaseService{
 
@@ -11,6 +12,7 @@ export class DatabaseService{
     private readonly _productRepository = AppDataSource.getRepository(Product)
     private readonly _orderRepository = AppDataSource.getRepository(Order)
     private readonly _orderItemRepository = AppDataSource.getRepository(OrderItem)
+    private readonly _cartRepository = AppDataSource.getRepository(Cart)
 
 
     getRepository(entityName: string){
@@ -20,18 +22,9 @@ export class DatabaseService{
             case "Product": return this._productRepository
             case "Order": return this._orderRepository
             case "OrderItem": return this._orderItemRepository
+            case "Cart": return this._cartRepository
 
-            //case "User": return AppDataSource.getRepository(User)
-            //case "Product": return AppDataSource.getRepository(Product)
-            // case "Order": return AppDataSource.getRepository(Order)
-            // case "OrderItem": return AppDataSource.getRepository(OrderItem)
-
-            
-
-            default: { 
-               //statements; 
-               break; 
-            } 
+            default: return null
          }
 
     }
@@ -66,6 +59,7 @@ export class DatabaseService{
 
     // order
     async saveOrder(order: Order){
+        this._orderItemRepository.save(order.items)
         this._orderRepository.save(order)
     }
 
@@ -88,6 +82,21 @@ export class DatabaseService{
 
     async deleteProduct(product: Product){
         this._productRepository.remove(product)
+    }
+
+    // cart
+    async saveCart(cart: Cart){
+        this._orderItemRepository.save(cart.items)
+        this._cartRepository.save(cart)
+    }
+
+    async updateCart(cart: Cart){ // typeorm provides updating by repo.save
+        this._orderItemRepository.save(cart.items)
+        this._cartRepository.save(cart)
+    }
+
+    async deleteCart(cart: Cart){
+        this._cartRepository.remove(cart)
     }
 
 }
