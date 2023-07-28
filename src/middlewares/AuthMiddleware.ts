@@ -5,7 +5,7 @@ import {JwtUtils} from "../utils/JwtUtils"
 
 export class AuthMiddleware{
 
-    authenticate(request: Request, response: Response, next: NextFunction){
+    authenticate(request: Request, response: Response){
 
         try{
 
@@ -14,7 +14,6 @@ export class AuthMiddleware{
 
             const decodedData = JwtUtils.verifyToken(token)
             request.user = decodedData
-            next
             return true
 
         }

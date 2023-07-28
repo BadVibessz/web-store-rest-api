@@ -1,7 +1,7 @@
 import { CRUDService } from "./CRUDService";
 import { DatabaseService } from "./DatabaseService";
 import { genSaltSync, hashSync } from "bcryptjs"
-import { User } from "../entity/User"
+import { User } from "../entities/User"
 
 
 
@@ -13,12 +13,12 @@ export class UserService {
 
 
     async getAll() {
-        return await this._db.getAll("User")
+        return this._db.getAll("User")
     }
 
 
     async getById(id: number) {
-        return await this._db.getUserById(id)
+        return this._db.getById("User", id)
     }
 
     async getByEmail(email: string) {
@@ -40,7 +40,7 @@ export class UserService {
         user.email = email
         user.password = hashedPassword
 
-        await this._db.save(user)
+        this._db.saveUser(user)
 
         // validate creation TODO: necessary?
 
@@ -52,16 +52,16 @@ export class UserService {
     async delete(id: number) {
        
 
-        let userToRemove = await this._db.getUserById(id)
+        let userToRemove = await this._db.getById("User", id) as User
 
         if (!userToRemove) 
             return false
 
-        await this._db.delete(userToRemove)
+        this._db.deleteUser(userToRemove)
 
-        // validate remove
-        if(await this.getById(id))
-            return false
+        // // validate remove
+        // if(await this.getById(id))
+        //     return false
 
         return true
     }

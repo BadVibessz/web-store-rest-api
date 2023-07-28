@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express"
-import { User } from "../entity/User"
+import { User } from "../entities/User"
 import { compareSync, genSaltSync, hashSync } from "bcryptjs"
 import { UserService } from "../services/UserService"
 import {JwtUtils} from "../utils/JwtUtils"
