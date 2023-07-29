@@ -1,6 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, ManyToOne, OneToMany } from "typeorm"
 import { User } from "./User"
 import { OrderItem } from "./OrderItem"
+import { CartItem } from "./CartItem"
 
 
 @Entity()
@@ -12,8 +13,8 @@ export class Cart {
     @ManyToOne(() => User, (user) => user.orders, { onDelete: 'CASCADE' })
     user: User
 
-    @OneToMany(() => OrderItem, (item) => item.order)
-    items: OrderItem[]
+    @OneToMany(() => CartItem, (item) => item.cart)
+    items: CartItem[]
 
     
 }

@@ -1,6 +1,7 @@
 import { UserController } from "./controllers/UserController"
 import { AuthController } from "./controllers/AuthController"
 import { ProductController } from "./controllers/ProductController"
+import { CartController } from "./controllers/CartController"
 
 export const Routes = [{
     method: "get",
@@ -49,9 +50,34 @@ export const Routes = [{
     action: "create"
 },{
     method: "delete",
-    route: "/products",
+    route: "/products/:id",
     controller: ProductController,
     action: "delete"
+},{
+    method: "get",
+    route: "/carts",
+    controller: CartController,
+    action: "getAll"
+},{
+    method: "get",
+    route: "/carts/:id",
+    controller: CartController,
+    action: "get"
+},{
+    method: "post",
+    route: "/carts/",
+    controller: CartController,
+    action: "create"
+},{
+    method: "post",
+    route: "/carts/:cartId/items/",
+    controller: CartController,
+    action: "addItem"
+},{
+    method: "delete",
+    route: "/carts/:cartId/items/:itemId",
+    controller: CartController,
+    action: "deleteItem"
 }
 
 ]

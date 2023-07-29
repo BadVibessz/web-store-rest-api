@@ -1,49 +1,77 @@
 import { DatabaseService } from "./DatabaseService"
 import { Cart } from "../entities/Cart"
-import { OrderItem } from "../entities/OrderItem"
-import { it } from "node:test"
-import { Order } from "../entities/Order"
+import { User } from "../entities/User"
+import { Product } from "../entities/Product"
+import { CartItem } from "../entities/CartItem"
 
 
-export class CardService{
+export class CartService{
 
     private readonly _db = new DatabaseService()
 
     async getAll(){
-        return this._db.getAll("Cart")
+        return this._db.getAllCarts() 
     }
 
     async get(id: number){
-        return this._db.getById("Cart", id)
+        return (await this.getAll()).find(item => item.id == id)
     }
 
-    async create(cart: Cart){
+    async create(userId: number){
+
+        const user = await this._db.getById("User", userId) as User
+        if(!user) return false
+
+        const cart = new Cart()
+        cart.user = user
+        cart.items = []
+
         this._db.saveCart(cart)
         return true
     }
 
-    async update(cart: Cart){
+    async update(cartId: number, newItems: CartItem[]){
+
+        const cart = await this.get(cartId)
+        if(!cart) return false
+
+        cart.items = newItems
+
         this._db.updateCart(cart)
         return true
     }
 
-    async addItem(cart: Cart, item: OrderItem){
+    async addItem(cartId: number, productId: number){
+        
+        const cart = await this.get(cartId)
+        if(!cart) return false
+
+        const product = await this._db.getById("Product", productId) as Product
+        if(!product) return false
+
+        const item = new CartItem()
+        item.product = product
+        item.cart = cart
+
         cart.items.push(item)
-        this.update(cart)
+        this._db.updateCart(cart)
         return true
     }
 
-    async makeOrder(cart: Cart, details: string){ //todo: ???
+    async deleteItem(cartId: number, itemId: number){
+        
+        const cart = await this.get(cartId)
+        if(!cart) return false
 
-        // todo: provide adress
-        const order = new Order()
-        order.details = details
-        order.items = cart.items
-        order.user = cart.user
-        order.timeStamp = new Date()
+        const itemIndex = cart.items.findIndex( item => item.id == itemId )
+        if(itemIndex == -1) return false
 
-        return order
+        cart.items.splice(itemIndex, 1) // remove item at index
+
+        this._db.updateCart(cart)
+        return true
     }
+
 
     async delete(id: number){
 

@@ -33,7 +33,7 @@ export class ProductController extends CRUDController{
             if(!authenticated)
                 return response.status(401).json({message: "User unauthorized"})
 
-            const product = await this._productService.get(parseInt(request.body.id))
+            const product = await this._productService.get(parseInt(request.params.id))
             return response.status(200).json({product: product})       
         }
         catch(e){
@@ -76,7 +76,7 @@ export class ProductController extends CRUDController{
             if(!authenticated)
                 return response.status(401).json({message: "User unauthorized"})
 
-            const success = await this._productService.delete(parseInt(request.body.id))
+            const success = await this._productService.delete(parseInt(request.params.id))
     
             if(!success) return response.status(400).json({message: "Product not deleted due to an error"})
             return response.status(200).json({message: "You have sucessfully deleted product!"})

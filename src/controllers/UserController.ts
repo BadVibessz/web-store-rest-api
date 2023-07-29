@@ -33,7 +33,7 @@ export class UserController extends CRUDController {
             if(!authenticated)
                 return response.status(401).json({message: "User unauthorized"})
 
-            const user = await this._userService.getById(parseInt(request.body.id))
+            const user = await this._userService.getById(parseInt(request.params.id))
 
             if (!user) 
                 return response.status(400).json({message: "No such user"})

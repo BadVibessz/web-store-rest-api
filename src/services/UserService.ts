@@ -13,12 +13,12 @@ export class UserService {
 
 
     async getAll() {
-        return this._db.getAll("User")
+        return this._db.getAllUsers()
     }
 
 
     async getById(id: number) {
-        return this._db.getById("User", id)
+        return this._db.getUserById(id)
     }
 
     async getByEmail(email: string) {

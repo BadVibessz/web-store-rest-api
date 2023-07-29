@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from "express"
+import { Request, Response } from "express"
 import { AuthMiddleware } from "../middlewares/AuthMiddleware"
 
 export abstract class CRUDController{

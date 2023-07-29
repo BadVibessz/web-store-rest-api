@@ -5,6 +5,7 @@ import { Product } from "../entities/Product";
 import { Order } from "../entities/Order";
 import { OrderItem } from "../entities/OrderItem";
 import { Cart } from "../entities/Cart";
+import { CartItem } from "../entities/CartItem";
 
 export class DatabaseService{
 
@@ -13,6 +14,8 @@ export class DatabaseService{
     private readonly _orderRepository = AppDataSource.getRepository(Order)
     private readonly _orderItemRepository = AppDataSource.getRepository(OrderItem)
     private readonly _cartRepository = AppDataSource.getRepository(Cart)
+    private readonly _cartItemRepository = AppDataSource.getRepository(CartItem)
+
 
 
     getRepository(entityName: string){
@@ -23,6 +26,7 @@ export class DatabaseService{
             case "Order": return this._orderRepository
             case "OrderItem": return this._orderItemRepository
             case "Cart": return this._cartRepository
+            case "CartItem": return this._cartItemRepository
 
             default: return null
          }
@@ -40,6 +44,23 @@ export class DatabaseService{
 
 
     // user
+    async getAllUsers(){
+        return this._userRepository.find({ 
+            relations: 
+            ['orders',
+            'orders.items',
+            'orders.items.product',
+            'carts',
+            'carts.items',
+            'carts.items.product',
+            ] 
+         }) 
+    }
+
+    async getUserById(id: number){
+        return (await this.getAllUsers()).find(user => user.id == id)
+    }
+
     async getUserByEmail(email: string){
         return this._userRepository.findOneBy({email: email})
     }
@@ -85,18 +106,40 @@ export class DatabaseService{
     }
 
     // cart
+    async getAllCarts(){
+
+        // return this._cartRepository.find({
+        //     relations: {
+        //         user: true,
+        //         items: true,
+    
+        //     },
+        // })
+
+        return this._cartRepository.find({ 
+            relations: ['user','items', 'items.product'] 
+         })
+
+    }
+
     async saveCart(cart: Cart){
-        this._orderItemRepository.save(cart.items)
+        this._cartItemRepository.save(cart.items)
         this._cartRepository.save(cart)
     }
 
     async updateCart(cart: Cart){ // typeorm provides updating by repo.save
-        this._orderItemRepository.save(cart.items)
+        console.log(cart.id)
+        console.log(cart.user.email)
+
+        this._cartItemRepository.save(cart.items)
         this._cartRepository.save(cart)
     }
 
     async deleteCart(cart: Cart){
         this._cartRepository.remove(cart)
     }
+
+    // cart items
+
 
 }
