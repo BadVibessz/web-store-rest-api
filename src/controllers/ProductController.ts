@@ -52,10 +52,10 @@ export class ProductController extends CRUDController{
 
             const {title, description, price} = request.body
                 
-            const success = await this._productService.create(title, description, price)
+            const created = await this._productService.create(title, description, price)
     
-            if(!success) return response.status(400).json({message: "Product not created due to an error"})
-            return response.status(200).json({message: "You have sucessfully created new product!"})
+            if(!created) return response.status(400).json({message: "Product not created due to an error"})
+            return response.status(200).json({message: "You have sucessfully created new product!", product: created})
         }
         catch(e){
             console.log(e)
@@ -76,10 +76,10 @@ export class ProductController extends CRUDController{
             if(!authenticated)
                 return response.status(401).json({message: "User unauthorized"})
 
-            const success = await this._productService.delete(parseInt(request.params.id))
+            const deleted = await this._productService.delete(parseInt(request.params.id))
     
-            if(!success) return response.status(400).json({message: "Product not deleted due to an error"})
-            return response.status(200).json({message: "You have sucessfully deleted product!"})
+            if(!deleted) return response.status(400).json({message: "Product not deleted due to an error"})
+            return response.status(200).json({message: "You have sucessfully deleted product!", product: deleted})
         }
         catch(e){
             console.log(e)

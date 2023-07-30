@@ -54,10 +54,10 @@ export class UserController extends CRUDController {
 
             const { firstName, lastName, email, password } = request.body;
 
-            const success = await this._userService.create(firstName, lastName, email, password)
+            const created = await this._userService.create(firstName, lastName, email, password)
     
-            if(!success) return response.status(400).json({message: "User with this email already exists"})
-            return response.status(200).json({message: "You have sucessfully created new user!"})
+            if(!created) return response.status(400).json({message: "User with this email already exists"})
+            return response.status(200).json({message: "You have sucessfully created new user!", user: created})
 
         }
         catch(e){
@@ -79,11 +79,11 @@ export class UserController extends CRUDController {
 
         const id = parseInt(request.params.id)
 
-        const success = await this._userService.delete(id)
-        if (!success) 
+        const deleted = await this._userService.delete(id)
+        if (!deleted) 
             return response.status(400).json({message: "No such user"})
 
-        return response.status(200).json({message: "User has been deleted"})
+        return response.status(200).json({message: "User has been deleted", user: deleted})
     }
 
 }

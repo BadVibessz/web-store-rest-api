@@ -1,4 +1,3 @@
-import { CRUDService } from "./CRUDService";
 import { DatabaseService } from "./DatabaseService";
 import { genSaltSync, hashSync } from "bcryptjs"
 import { User } from "../entities/User"
@@ -28,8 +27,7 @@ export class UserService {
     async create(firstName: string, lastName: string, email: string, password: string) {
     
         var user = await this._db.getUserByEmail(email)
-
-        if(user) return false
+        if(user) return null
 
         var salt = genSaltSync(5) // todo: how many rounds?
         var hashedPassword = hashSync(password, salt)
@@ -40,30 +38,17 @@ export class UserService {
         user.email = email
         user.password = hashedPassword
 
-        this._db.saveUser(user)
-
-        // validate creation TODO: necessary?
-
-        return true
+        return this._db.saveUser(user)
     }
     async update() {
        
     }
     async delete(id: number) {
-       
 
         let userToRemove = await this._db.getById("User", id) as User
+        if (!userToRemove) return false
 
-        if (!userToRemove) 
-            return false
-
-        this._db.deleteUser(userToRemove)
-
-        // // validate remove
-        // if(await this.getById(id))
-        //     return false
-
-        return true
+        return this._db.deleteUser(userToRemove)
     }
 
 

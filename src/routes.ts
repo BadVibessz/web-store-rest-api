@@ -2,8 +2,12 @@ import { UserController } from "./controllers/UserController"
 import { AuthController } from "./controllers/AuthController"
 import { ProductController } from "./controllers/ProductController"
 import { CartController } from "./controllers/CartController"
+import { OrderController } from "./controllers/OrderController"
 
-export const Routes = [{
+export const Routes = [
+    
+// users
+{
     method: "get",
     route: "/users",
     controller: UserController,
@@ -23,7 +27,10 @@ export const Routes = [{
     route: "/users/:id",
     controller: UserController,
     action: "delete"
-},{
+},
+
+// auth
+{
     method: "post",
     route: "/auth/register",
     controller: AuthController,
@@ -33,7 +40,10 @@ export const Routes = [{
     route: "/auth/login",
     controller: AuthController,
     action: "login"
-},{
+},
+
+// products
+{
     method: "get",
     route: "/products",
     controller: ProductController,
@@ -53,7 +63,10 @@ export const Routes = [{
     route: "/products/:id",
     controller: ProductController,
     action: "delete"
-},{
+},
+
+// carts
+{
     method: "get",
     route: "/carts",
     controller: CartController,
@@ -69,15 +82,46 @@ export const Routes = [{
     controller: CartController,
     action: "create"
 },{
+    method: "delete",
+    route: "/carts/",
+    controller: CartController,
+    action: "delete"
+},
+
+// cart items
+{
     method: "post",
     route: "/carts/:cartId/items/",
     controller: CartController,
     action: "addItem"
 },{
     method: "delete",
-    route: "/carts/:cartId/items/:itemId",
+    route: "/carts/:cartId/items/",
     controller: CartController,
     action: "deleteItem"
-}
+},
+
+// orders
+{
+    method: "get",
+    route: "/orders/",
+    controller: OrderController,
+    action: "getAll"
+},{
+    method: "get",
+    route: "/orders/",
+    controller: OrderController,
+    action: "get"
+},{
+    method: "post",
+    route: "/orders/",
+    controller: OrderController,
+    action: "create"
+},{
+    method: "delete",
+    route: "/orders/",
+    controller: OrderController,
+    action: "delete"
+},
 
 ]

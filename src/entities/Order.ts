@@ -10,7 +10,7 @@ export class Order {
 
     @Column("timestamptz")
     timeStamp: Date;
-
+ 
     @Column("text")
     details: string
 

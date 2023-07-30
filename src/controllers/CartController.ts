@@ -46,10 +46,10 @@ export class CartController extends CRUDController{
 
             const userId = request.body.userId
         
-            const success = await this._cartService.create(userId)
-            if(!success) return response.status(400).json({message: "Something went wrong"})
+            const created = await this._cartService.create(userId)
+            if(!created) return response.status(400).json({message: "Something went wrong"})
 
-            return response.status(200).json({message: "You have sucessfully crated new cart!"})
+            return response.status(200).json({message: "You have sucessfully crated new cart!", cart: created})
         }
         catch(e){
             console.log(e)
@@ -65,10 +65,10 @@ export class CartController extends CRUDController{
 
             const {cartId, newItems} = request.body
         
-            const success = await this._cartService.update(cartId, newItems)
-            if(!success) return response.status(400).json({message: "Something went wrong"})
+            const updated = await this._cartService.update(cartId, newItems)
+            if(!updated) return response.status(400).json({message: "Something went wrong"})
 
-            return response.status(200).json({message: "You have sucessfully updated cart!"})
+            return response.status(200).json({message: "You have sucessfully updated cart!", cart: updated})
         }
         catch(e){
             console.log(e)
@@ -85,10 +85,10 @@ export class CartController extends CRUDController{
             const cartId = parseInt(request.params.cartId)
             const productId = parseInt(request.body.productId)
         
-            const success = await this._cartService.addItem(cartId, productId)
-            if(!success) return response.status(400).json({message: "No such product"})
+            const updated = await this._cartService.addItem(cartId, productId)
+            if(!updated) return response.status(400).json({message: "No such product"})
 
-            return response.status(200).json({message: "You have sucessfully updated cart!"})
+            return response.status(200).json({message: "You have sucessfully updated cart!", cart: updated})
         }
         catch(e){
             console.log(e)
@@ -102,13 +102,13 @@ export class CartController extends CRUDController{
             const authenticated = this._authMiddleware.authenticate(request, request)
             if(!authenticated) return response.status(401).json({message: "User unauthorized"})
 
-            const cartId = parseInt(request.params.id)
+            const cartId = parseInt(request.params.cartId)
             const itemId = parseInt(request.body.itemId)
         
-            const success = await this._cartService.deleteItem(cartId, itemId)
-            if(!success) return response.status(400).json({message: "No such item"})
+            const updated = await this._cartService.deleteItem(cartId, itemId)
+            if(!updated) return response.status(400).json({message: "No such item"})
 
-            return response.status(200).json({message: "You have sucessfully updated cart!"})
+            return response.status(200).json({message: "You have sucessfully updated cart!", cart: updated})
         }
         catch(e){
             console.log(e)
@@ -117,7 +117,21 @@ export class CartController extends CRUDController{
     }
 
     async delete(request: Request, response: Response) {
-        throw new Error("Method not implemented.");
+        try{
+            const authenticated = this._authMiddleware.authenticate(request, request)
+            if(!authenticated) return response.status(401).json({message: "User unauthorized"})
+
+            const id = parseInt(request.body.id)
+        
+            const deleted = await this._cartService.delete(id)
+            if(!deleted) return response.status(400).json({message: "No such cart"})
+
+            return response.status(200).json({message: "You have sucessfully deleted cart!", cart: deleted})
+        }
+        catch(e){
+            console.log(e)
+            return response.status(400).json({message: "Something went wrong"})
+        }
     }
 
 

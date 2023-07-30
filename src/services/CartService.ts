@@ -20,67 +20,61 @@ export class CartService{
     async create(userId: number){
 
         const user = await this._db.getById("User", userId) as User
-        if(!user) return false
+        if(!user) return null
 
         const cart = new Cart()
         cart.user = user
         cart.items = []
-
-        this._db.saveCart(cart)
-        return true
+        
+        return this._db.saveCart(cart)
     }
 
     async update(cartId: number, newItems: CartItem[]){
 
         const cart = await this.get(cartId)
-        if(!cart) return false
+        if(!cart) return null
 
         cart.items = newItems
 
-        this._db.updateCart(cart)
-        return true
+        return this._db.updateCart(cart)
     }
 
     async addItem(cartId: number, productId: number){
         
         const cart = await this.get(cartId)
-        if(!cart) return false
+        if(!cart) return null
 
         const product = await this._db.getById("Product", productId) as Product
-        if(!product) return false
+        if(!product) return null
 
         const item = new CartItem()
         item.product = product
         item.cart = cart
 
         cart.items.push(item)
-        this._db.updateCart(cart)
-        return true
+        
+        return this._db.updateCart(cart)
     }
 
     async deleteItem(cartId: number, itemId: number){
         
         const cart = await this.get(cartId)
-        if(!cart) return false
+        if(!cart) return null
 
         const itemIndex = cart.items.findIndex( item => item.id == itemId )
-        if(itemIndex == -1) return false
+        if(itemIndex == -1) return null
 
         cart.items.splice(itemIndex, 1) // remove item at index
 
-        this._db.updateCart(cart)
-        return true
+        return this._db.updateCart(cart)
     }
 
 
     async delete(id: number){
 
         let cartToRemove = await this._db.getById("Cart", id) as Cart
-
-        if (!cartToRemove) 
-            return false
-
-        this._db.deleteCart(cartToRemove)
-        return true
+        if (!cartToRemove) return null
+        
+        return this._db.deleteCart(cartToRemove)
     }
 }

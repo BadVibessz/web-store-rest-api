@@ -22,8 +22,7 @@ export class ProductService{
         product.description = description
         product.price = price
 
-        this._db.saveProduct(product)
-        return true
+        return this._db.saveProduct(product)
     }
 
     async update(){
@@ -33,11 +32,9 @@ export class ProductService{
     async delete(id: number){
 
         let productToRemove = await this._db.getById("Product", id) as Product
-
         if (!productToRemove) 
-            return false
+            return null
 
-        this._db.deleteProduct(productToRemove)
-        return true
+        return this._db.deleteProduct(productToRemove)
     }
 }

@@ -11,7 +11,7 @@ export class CartItem {
     @ManyToOne(() => Cart, (cart) => cart.items, { onDelete: 'CASCADE' })
     cart: Cart
 
-    @OneToOne(() => Product, { onDelete: 'CASCADE' })
+    @ManyToOne(() => Product, { onDelete: 'CASCADE' })
     @JoinColumn()
     product: Product
 

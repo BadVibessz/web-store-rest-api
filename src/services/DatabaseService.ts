@@ -62,12 +62,12 @@ export class DatabaseService{
     }
 
     async getUserByEmail(email: string){
-        return this._userRepository.findOneBy({email: email})
+        return (await this.getAllUsers()).find(user => user.email == email)
     }
 
     async saveUser(user: User){
         this._orderRepository.save(user.orders)
-        this._userRepository.save(user)
+        return this._userRepository.save(user)
     }
 
     async updateUser(user: User){
@@ -75,26 +75,40 @@ export class DatabaseService{
     }
 
     async deleteUser(user: User){ // todo: try generic
-        this._userRepository.remove(user)
+        return this._userRepository.remove(user)
     }
 
     // order
+    async getAllOrders(){
+        return this._orderRepository.find({ 
+            relations: 
+            ['user',
+            'items',
+            'items.product'
+            ] 
+         }) 
+    }
+
+    async getOrder(id: number){
+        return (await this.getAllOrders()).find(order => order.id == id)
+    }
+
     async saveOrder(order: Order){
         this._orderItemRepository.save(order.items)
-        this._orderRepository.save(order)
+        return this._orderRepository.save(order)
     }
 
     async updateOrder(order: Order){
-        // todo
+        return this.saveOrder(order)
     }
 
     async deleteOrder(order: Order){ // todo: try generic
-        this._orderRepository.remove(order)
+        return this._orderRepository.remove(order)
     }
 
     // product
     async saveProduct(product: Product){
-        this._productRepository.save(product)
+        return this._productRepository.save(product)
     }
 
     async updateProduct(product: Product){
@@ -102,44 +116,30 @@ export class DatabaseService{
     }
 
     async deleteProduct(product: Product){
-        this._productRepository.remove(product)
+        return this._productRepository.remove(product)
     }
 
     // cart
     async getAllCarts(){
-
-        // return this._cartRepository.find({
-        //     relations: {
-        //         user: true,
-        //         items: true,
-    
-        //     },
-        // })
-
         return this._cartRepository.find({ 
             relations: ['user','items', 'items.product'] 
          })
+    }
 
+    async getCart(id: number){
+        return (await this.getAllCarts()).find(cart => cart.id == id)
     }
 
     async saveCart(cart: Cart){
         this._cartItemRepository.save(cart.items)
-        this._cartRepository.save(cart)
+        return this._cartRepository.save(cart)
     }
 
     async updateCart(cart: Cart){ // typeorm provides updating by repo.save
-        console.log(cart.id)
-        console.log(cart.user.email)
-
-        this._cartItemRepository.save(cart.items)
-        this._cartRepository.save(cart)
+        return this.saveCart(cart)
     }
 
     async deleteCart(cart: Cart){
-        this._cartRepository.remove(cart)
+        return this._cartRepository.remove(cart)
     }
-
-    // cart items
-
-
 }
