@@ -1,5 +1,5 @@
 import { type } from "os";
-import { AppDataSource } from "../data-source";
+import { AppDataSource } from "../db-context";
 import { User } from "../entities/User"
 import { Product } from "../entities/Product";
 import { Order } from "../entities/Order";
@@ -71,7 +71,7 @@ export class DatabaseService{
     }
 
     async updateUser(user: User){
-        // todo
+        return this.saveUser(user)
     }
 
     async deleteUser(user: User){ // todo: try generic
@@ -112,7 +112,7 @@ export class DatabaseService{
     }
 
     async updateProduct(product: Product){
-        // todo
+        return this.saveProduct(product)    
     }
 
     async deleteProduct(product: Product){

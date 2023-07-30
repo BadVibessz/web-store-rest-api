@@ -23,6 +23,11 @@ export const Routes = [
     controller: UserController,
     action: "create"
 }, {
+    method: "put", 
+    route: "/users/:id",
+    controller: UserController,
+    action: "update"
+}, {
     method: "delete",
     route: "/users/:id",
     controller: UserController,
@@ -58,6 +63,11 @@ export const Routes = [
     route: "/products",
     controller: ProductController,
     action: "create"
+},{
+    method: "put",
+    route: "/products/:id",
+    controller: ProductController,
+    action: "update"
 },{
     method: "delete",
     route: "/products/:id",
@@ -117,6 +127,11 @@ export const Routes = [
     route: "/orders/",
     controller: OrderController,
     action: "create"
+},{
+    method: "put",
+    route: "/orders/:id",
+    controller: OrderController,
+    action: "update"
 },{
     method: "delete",
     route: "/orders/",

@@ -47,8 +47,14 @@ export class OrderService{
         return order
     }
 
-    async update(){
-        // todo:
+    async update(id: number, newDetails: string){
+
+        const order = await this._db.getOrder(id)
+        if(!order) return null
+
+        order.details = newDetails ?? order.details
+
+        return this._db.updateOrder(order)
     }
 
     async delete(id: number){

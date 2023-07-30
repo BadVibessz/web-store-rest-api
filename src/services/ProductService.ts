@@ -25,8 +25,16 @@ export class ProductService{
         return this._db.saveProduct(product)
     }
 
-    async update(){
+    async update(id: number, newTitle: string, newDescription: string, newPrice: number){
 
+        const product = await this.get(id) as Product
+        if(!product) return null
+
+        product.title = newTitle ?? product.title
+        product.description = newDescription ?? product.description
+        product.price = newPrice ?? product.price
+
+        return this._db.updateProduct(product)
     }
 
     async delete(id: number){

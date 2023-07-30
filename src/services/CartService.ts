@@ -29,7 +29,7 @@ export class CartService{
         return this._db.saveCart(cart)
     }
 
-    async update(cartId: number, newItems: CartItem[]){
+    async update(cartId: number, newItems: CartItem[]){ // todo:
 
         const cart = await this.get(cartId)
         if(!cart) return null

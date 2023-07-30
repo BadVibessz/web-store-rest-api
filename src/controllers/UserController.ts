@@ -67,8 +67,24 @@ export class UserController extends CRUDController {
     }
 
     async update(request: Request, response: Response){
+        try{
 
-        // todo
+            const authenticated = this._authMiddleware.authenticate(request, request)
+            if(!authenticated)
+                return response.status(401).json({message: "User unauthorized"})
+
+            const id = request.params.id
+            const { newFirstName, newLastName, newEmail, newPassword } = request.body;
+
+            const updated = await this._userService.update(id, newFirstName, newLastName, newEmail, newPassword)
+    
+            if(!updated) return response.status(400).json({message: "No such user"})
+            return response.status(200).json({message: "You have sucessfully updated user!", user: updated})
+        }
+        catch(e){
+            console.log(e)
+            return response.status(400).json({message: "Something went wrong"})
+        }
     }
 
     async delete(request: Request, response: Response) {

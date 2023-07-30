@@ -65,7 +65,23 @@ export class ProductController extends CRUDController{
     }
 
     async update(request: Request, response: Response) {
-        throw new Error("Method not implemented.");
+        try{
+            const authenticated = this._authMiddleware.authenticate(request, request)
+            if(!authenticated)
+                return response.status(401).json({message: "User unauthorized"})
+
+            const id = request.params.id
+            const {newTitle, newDescription, newPrice} = request.body
+                
+            const updated = await this._productService.update(id, newTitle, newDescription, newPrice)
+    
+            if(!updated) return response.status(400).json({message: "No such product"})
+            return response.status(200).json({message: "You have sucessfully updated product!", product: updated})
+        }
+        catch(e){
+            console.log(e)
+            return response.status(401).json({message: "Something went wrong"})
+        }
     }
 
     async delete(request: Request, response: Response) {

@@ -62,7 +62,22 @@ export class OrderController extends CRUDController{
     }
 
     async update(request: Request, response: Response) {
-        throw new Error("Method not implemented.");
+        try{
+            const authenticated = this._authMiddleware.authenticate(request, request)
+            if(!authenticated) return response.status(401).json({message: "User unauthorized"})
+
+            const id = request.params.id
+            const newDetails = request.body.newDetails
+
+            const updated = await this._orderService.update(id, newDetails)
+            if(!updated) return response.status(400).json({message: "No such order"})
+
+            return response.status(200).json({message: "You have sucessfully updated order!", order : updated})
+        }
+        catch(e){
+            console.log(e)
+            return response.status(400).json({message: "Something went wrong"})
+        }
     }
 
     async delete(request: Request, response: Response) {
