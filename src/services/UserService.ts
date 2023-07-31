@@ -33,6 +33,8 @@ export class UserService {
         user.lastName = lastName
         user.email = email
         user.password = hashedPassword
+        user.orders = []
+        user.carts = []
 
         return this._db.saveUser(user)
     }

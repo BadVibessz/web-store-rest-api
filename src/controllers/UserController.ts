@@ -22,7 +22,7 @@ export class UserController extends CRUDController {
         }
         catch(e){ 
             console.log(e)
-            return response.status(401).json({message: "Something went wrong"})
+            return response.status(500).json({message: "Something went wrong"})
         }
     }
 
@@ -41,7 +41,7 @@ export class UserController extends CRUDController {
         }
         catch(e){
             console.log(e)
-            return response.status(401).json({message: "Something went wrong"})
+            return response.status(500).json({message: "Something went wrong"})
         }
     }
 
@@ -62,7 +62,7 @@ export class UserController extends CRUDController {
         }
         catch(e){
             console.log(e)
-            return response.status(400).json({message: "Something went wrong"})
+            return response.status(500).json({message: "Something went wrong"})
         }
     }
 
@@ -83,23 +83,28 @@ export class UserController extends CRUDController {
         }
         catch(e){
             console.log(e)
-            return response.status(400).json({message: "Something went wrong"})
+            return response.status(500).json({message: "Something went wrong"})
         }
     }
 
     async delete(request: Request, response: Response) {
+        try{
+            const authenticated = this._authMiddleware.authenticate(request, request)
+            if(!authenticated)
+                return response.status(401).json({message: "User unauthorized"})
 
-        const authenticated = this._authMiddleware.authenticate(request, request)
-        if(!authenticated)
-            return response.status(401).json({message: "User unauthorized"})
+            const id = parseInt(request.params.id)
 
-        const id = parseInt(request.params.id)
+            const deleted = await this._userService.delete(id)
+            if (!deleted) 
+                return response.status(400).json({message: "No such user"})
 
-        const deleted = await this._userService.delete(id)
-        if (!deleted) 
-            return response.status(400).json({message: "No such user"})
-
-        return response.status(200).json({message: "User has been deleted", user: deleted})
+            return response.status(200).json({message: "User has been deleted", user: deleted})
+        }
+        catch(e){
+            console.log(e)
+            return response.status(500).json({message: "Something went wrong"})
+        }
     }
 
 }

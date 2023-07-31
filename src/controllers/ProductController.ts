@@ -21,7 +21,7 @@ export class ProductController extends CRUDController{
         }
         catch(e){
             console.log(e)
-            return response.status(401).json({message: "Something went wrong"})
+            return response.status(500).json({message: "Something went wrong"})
         }
         
     }
@@ -38,7 +38,7 @@ export class ProductController extends CRUDController{
         }
         catch(e){
             console.log(e)
-            return response.status(401).json({message: "Something went wrong"})
+            return response.status(500).json({message: "Something went wrong"})
         }
          
     }
@@ -59,7 +59,7 @@ export class ProductController extends CRUDController{
         }
         catch(e){
             console.log(e)
-            return response.status(401).json({message: "Something went wrong"})
+            return response.status(500).json({message: "Something went wrong"})
         }
 
     }
@@ -80,7 +80,7 @@ export class ProductController extends CRUDController{
         }
         catch(e){
             console.log(e)
-            return response.status(401).json({message: "Something went wrong"})
+            return response.status(500).json({message: "Something went wrong"})
         }
     }
 
@@ -99,7 +99,7 @@ export class ProductController extends CRUDController{
         }
         catch(e){
             console.log(e)
-            return response.status(401).json({message: "Something went wrong"})
+            return response.status(500).json({message: "Something went wrong"})
         }
 
     }

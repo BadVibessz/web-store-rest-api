@@ -1,0 +1,33 @@
+type: object
+required:
+  - firstName
+  - lastName
+  - email
+  - password
+properties:
+  id:
+    type: int
+    description: auto generated id of the user
+
+  firstName:
+    type: string
+    description: user's first name
+
+  lastName:
+    type: string
+    description: user's last name
+
+  email:
+    type: string
+    description: user's email
+
+  password:
+    type: string
+    description: user's password
+
+example:
+  id: 1
+  firstName: Alex
+  lastName: Ivanov
+  email: alex-ivanov@mail.com
+  password: mypassword

@@ -24,13 +24,15 @@ export class AuthController{ //todo: call authService?
         }
         catch(e){
             console.log(e)
-            return response.status(400).json({message: "Something went wrong"})
+            return response.status(500).json({message: "Something went wrong"})
         }
     }
 
     async login(request: Request, response: Response){ // todo: use dto
 
-        // todo: prevent code copying, make function (serivce?) and use in userController and here
+        try{
+
+             // todo: prevent code copying, make function (serivce?) and use in userController and here
         const {email, password} = request.body
 
         const user = await this._userService.getByEmail(email)
@@ -49,6 +51,14 @@ export class AuthController{ //todo: call authService?
 
         const token = JwtUtils.generateToken(payload, options)
         return response.status(200).json({token: token})
+
+        }
+        catch(e){
+            console.log(e)
+            return response.status(500).json({message: "Something went wrong"})
+        }
+
+       
     }
 
 }
