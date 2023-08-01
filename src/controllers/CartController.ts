@@ -11,7 +11,7 @@ export class CartController extends CRUDController{
     async getAll(request: Request, response: Response) { // todo: authorize user (user cannot get cart's he doesn't own)
        
         try{
-            const authenticated = this._authMiddleware.authenticate(request, request)
+            const authenticated = this._authMiddleware.authenticate(request, response)
             if(!authenticated) return response.status(401).json({message: "User unauthorized"})
 
             const carts = await this._cartService.getAll()
@@ -26,7 +26,7 @@ export class CartController extends CRUDController{
 
     async get(request: Request, response: Response) {
         try{
-            const authenticated = this._authMiddleware.authenticate(request, request)
+            const authenticated = this._authMiddleware.authenticate(request, response)
             if(!authenticated) return response.status(401).json({message: "User unauthorized"})
 
             const cart = await this._cartService.get(parseInt(request.params.id))
@@ -41,7 +41,7 @@ export class CartController extends CRUDController{
 
     async create(request: Request, response: Response) {
         try{
-            const authenticated = this._authMiddleware.authenticate(request, request)
+            const authenticated = this._authMiddleware.authenticate(request, response)
             if(!authenticated) return response.status(401).json({message: "User unauthorized"})
 
             const userId = request.body.userId
@@ -60,7 +60,7 @@ export class CartController extends CRUDController{
     async update(request: Request, response: Response) {
 
         try{
-            const authenticated = this._authMiddleware.authenticate(request, request)
+            const authenticated = this._authMiddleware.authenticate(request, response)
             if(!authenticated) return response.status(401).json({message: "User unauthorized"})
 
             const {cartId, newItems} = request.body
@@ -79,7 +79,7 @@ export class CartController extends CRUDController{
     async addItem(request: Request, response: Response){
 
         try{
-            const authenticated = this._authMiddleware.authenticate(request, request)
+            const authenticated = this._authMiddleware.authenticate(request, response)
             if(!authenticated) return response.status(401).json({message: "User unauthorized"})
 
             const cartId = parseInt(request.params.cartId)
@@ -99,7 +99,7 @@ export class CartController extends CRUDController{
 
     async deleteItem(request: Request, response: Response){
         try{
-            const authenticated = this._authMiddleware.authenticate(request, request)
+            const authenticated = this._authMiddleware.authenticate(request, response)
             if(!authenticated) return response.status(401).json({message: "User unauthorized"})
 
             const cartId = parseInt(request.params.cartId)
@@ -118,7 +118,7 @@ export class CartController extends CRUDController{
 
     async delete(request: Request, response: Response) {
         try{
-            const authenticated = this._authMiddleware.authenticate(request, request)
+            const authenticated = this._authMiddleware.authenticate(request, response)
             if(!authenticated) return response.status(401).json({message: "User unauthorized"})
 
             const id = parseInt(request.body.id)

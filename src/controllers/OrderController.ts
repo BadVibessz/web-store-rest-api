@@ -13,7 +13,7 @@ export class OrderController extends CRUDController{
     async getAll(request: Request, response: Response) {
         
         try{
-            const authenticated = this._authMiddleware.authenticate(request, request)
+            const authenticated = this._authMiddleware.authenticate(request, response)
             if(!authenticated) return response.status(401).json({message: "User unauthorized"})
 
             const orders = await this._orderService.getAll()
@@ -27,7 +27,7 @@ export class OrderController extends CRUDController{
 
     async get(request: Request, response: Response) {
         try{
-            const authenticated = this._authMiddleware.authenticate(request, request)
+            const authenticated = this._authMiddleware.authenticate(request, response)
             if(!authenticated) return response.status(401).json({message: "User unauthorized"})
 
             const order = await this._orderService.get(parseInt(request.params.id))
@@ -42,7 +42,7 @@ export class OrderController extends CRUDController{
     async create(request: Request, response: Response) {
         
         try{
-            const authenticated = this._authMiddleware.authenticate(request, request)
+            const authenticated = this._authMiddleware.authenticate(request, response)
             if(!authenticated) return response.status(401).json({message: "User unauthorized"})
 
             const {cartId, details} = request.body
@@ -63,13 +63,13 @@ export class OrderController extends CRUDController{
 
     async update(request: Request, response: Response) {
         try{
-            const authenticated = this._authMiddleware.authenticate(request, request)
+            const authenticated = this._authMiddleware.authenticate(request, response)
             if(!authenticated) return response.status(401).json({message: "User unauthorized"})
 
             const id = request.params.id
             const newDetails = request.body.newDetails
 
-            const updated = await this._orderService.update(id, newDetails)
+            const updated = await this._orderService.update(parseInt(id), newDetails)
             if(!updated) return response.status(400).json({message: "No such order"})
 
             return response.status(200).json({message: "You have sucessfully updated order!", order : updated})
@@ -82,7 +82,7 @@ export class OrderController extends CRUDController{
 
     async delete(request: Request, response: Response) {
         try{
-            const authenticated = this._authMiddleware.authenticate(request, request)
+            const authenticated = this._authMiddleware.authenticate(request, response)
             if(!authenticated) return response.status(401).json({message: "User unauthorized"})
 
             const id = request.body.id

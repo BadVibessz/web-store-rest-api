@@ -12,7 +12,7 @@ export class ProductController extends CRUDController{
     async getAll(request: Request, response: Response) {
         
         try{
-            const authenticated = this._authMiddleware.authenticate(request, request)
+            const authenticated = this._authMiddleware.authenticate(request, response)
             if(!authenticated)
                 return response.status(401).json({message: "User unauthorized"})
         
@@ -29,11 +29,14 @@ export class ProductController extends CRUDController{
     async get(request: Request, response: Response) {
 
         try{
-            const authenticated = this._authMiddleware.authenticate(request, request)
+            const authenticated = this._authMiddleware.authenticate(request, response)
             if(!authenticated)
                 return response.status(401).json({message: "User unauthorized"})
 
             const product = await this._productService.get(parseInt(request.params.id))
+
+            if(!product) return response.status(400).json({message: "No such product"})       
+
             return response.status(200).json({product: product})       
         }
         catch(e){
@@ -46,9 +49,8 @@ export class ProductController extends CRUDController{
     async create(request: Request, response: Response) { // todo: return to client created product?
 
         try{
-            const authenticated = this._authMiddleware.authenticate(request, request)
-            if(!authenticated)
-                return response.status(401).json({message: "User unauthorized"})
+            const authenticated = this._authMiddleware.authenticate(request, response)
+            if(!authenticated) return response.status(401).json({message: "User unauthorized"})
 
             const {title, description, price} = request.body
                 
@@ -59,28 +61,28 @@ export class ProductController extends CRUDController{
         }
         catch(e){
             console.log(e)
-            return response.status(500).json({message: "Something went wrong"})
+            return response.status(400).json({message: "Something went wrong"})
         }
 
     }
 
     async update(request: Request, response: Response) {
         try{
-            const authenticated = this._authMiddleware.authenticate(request, request)
+            const authenticated = this._authMiddleware.authenticate(request, response)
             if(!authenticated)
                 return response.status(401).json({message: "User unauthorized"})
 
             const id = request.params.id
             const {newTitle, newDescription, newPrice} = request.body
                 
-            const updated = await this._productService.update(id, newTitle, newDescription, newPrice)
+            const updated = await this._productService.update(parseInt(id), newTitle, newDescription, newPrice)
     
             if(!updated) return response.status(400).json({message: "No such product"})
             return response.status(200).json({message: "You have sucessfully updated product!", product: updated})
         }
         catch(e){
             console.log(e)
-            return response.status(500).json({message: "Something went wrong"})
+            return response.status(400).json({message: "Something went wrong"})
         }
     }
 
@@ -88,7 +90,7 @@ export class ProductController extends CRUDController{
         
         try{
             
-            const authenticated = this._authMiddleware.authenticate(request, request)
+            const authenticated = this._authMiddleware.authenticate(request, response)
             if(!authenticated)
                 return response.status(401).json({message: "User unauthorized"})
 

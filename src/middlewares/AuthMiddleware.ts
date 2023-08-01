@@ -13,7 +13,7 @@ export class AuthMiddleware{
             if(!token) return false
 
             const decodedData = JwtUtils.verifyToken(token)
-            request.user = decodedData
+            //request.user = decodedData // todo: user
             return true
 
         }
