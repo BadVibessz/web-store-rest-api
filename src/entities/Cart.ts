@@ -15,6 +15,29 @@ export class Cart {
 
     @OneToMany(() => CartItem, (item) => item.cart)
     items: CartItem[]
-
-    
 }
+
+
+/**
+ * @openapi
+ * components:
+ *   schemas:
+ *     createCart:
+ *       type: object
+ *       required:
+ *         - userId
+ *       properties:
+ *         userId: 
+ *           type: integer 
+ *           default: 1
+ * 
+ *     usersCartOutput:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: integer
+ *         items:
+ *           type: array
+ *           items:
+ *             $ref: '#/components/schemas/cartItem'
+ */

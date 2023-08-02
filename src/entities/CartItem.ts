@@ -14,5 +14,17 @@ export class CartItem {
     @ManyToOne(() => Product, { onDelete: 'CASCADE' })
     @JoinColumn()
     product: Product
-
 }
+
+/**
+ * @openapi
+ * components:
+ *   schemas:
+ *     cartItem:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: integer
+ *         product:
+ *           $ref: '#/components/schemas/product'
+ */

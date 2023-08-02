@@ -30,3 +30,68 @@ export class User {
     @OneToMany(() => Cart, (cart) => cart.user)
     carts: Cart[]
 }
+
+/**
+ * @openapi
+ * components:
+ *   schemas:
+ *     createUser:
+ *       type: object
+ *       required:
+ *         - firstName
+ *         - lastName
+ *         - email
+ *         - password
+ *       properties:
+ *         firstName: 
+ *           type: string 
+ *           default: firstName
+ *         lastName: 
+ *           type: string 
+ *           default: lastName
+ *         email: 
+ *           type: string 
+ *           default: youremail@example.com
+ *         password: 
+ *           type: string 
+ *           default: yourpassword   
+ * 
+ *     user:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: integer
+ *         firstName: 
+ *           type: string 
+ *         lastName: 
+ *           type: string 
+ *         email: 
+ *           type: string 
+ *         password: 
+ *           type: string 
+ *         carts:
+ *           type: array
+ *           items:
+ *             $ref: '#/components/schemas/usersCartOutput'
+ *         orders:
+ *           type: array
+ *           items:
+ *             $ref: '#/components/schemas/usersOrderOutput'
+ * 
+ * 
+ *     updateUser:
+ *       type: object
+ *       properties:
+ *         firstName: 
+ *           type: string 
+ *           default: newFirstName
+ *         lastName: 
+ *           type: string 
+ *           default: newLastName
+ *         email: 
+ *           type: string 
+ *           default: newemail@example.com
+ *         password: 
+ *           type: string 
+ *           default: newpassword   
+ */

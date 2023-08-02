@@ -44,6 +44,9 @@ export class OrderService{
             item.order = null
         })
 
+        // delete cart
+        await this._db.deleteCart(await this._db.getById("Cart", cartId) as Cart)
+
         return order
     }
 

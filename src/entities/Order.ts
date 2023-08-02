@@ -21,3 +21,31 @@ export class Order {
     items: OrderItem[]
 
 }
+
+/**
+ * @openapi
+ * components:
+ *   schemas:
+ *     createOrder:
+ *       type: object
+ *       required:
+ *         - cartId
+ *       properties:
+ *         cartId: 
+ *           type: integer 
+ *           default: 1
+ * 
+ *     usersOrderOutput:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: integer
+ *         timestamp:
+ *           type: string
+ *         details:
+ *           type: string
+ *         items:
+ *           type: array
+ *           items:
+ *             $ref: '#/components/schemas/orderItem'
+ */

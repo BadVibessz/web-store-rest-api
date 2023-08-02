@@ -16,3 +16,16 @@ export class OrderItem {
     product: Product
 
 }
+
+/**
+ * @openapi
+ * components:
+ *   schemas:
+ *     orderItem:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: integer
+ *         product:
+ *           $ref: '#/components/schemas/product'
+ */

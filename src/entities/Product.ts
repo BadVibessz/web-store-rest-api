@@ -16,3 +16,19 @@ export class Product {
     price: number
 
 }
+
+/**
+ * @openapi
+ * components:
+ *   schemas:
+ *     product:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: integer
+ *         description:
+ *           type: string
+ *         price:
+ *           type: number
+ * 
+ *  */

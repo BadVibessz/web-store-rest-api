@@ -8,26 +8,173 @@ export const Routes = [
     
 // users
 {
+
+    /**
+     * @openapi
+     * /users:
+     *  get:
+     *    summary: Returns a list of users
+     *    tags:
+     *      - User
+     *    responses:
+     *      401:
+     *        description: Unauthorized exception
+     *      500:
+     *        description: Internal error
+     *      200:
+     *        description: A JSON array of users
+     *        content:
+     *          application/json:
+     *            schema:
+     *              $ref: '#/components/schemas/user'
+     */
+
     method: "get",
     route: "/users",
     controller: UserController,
     action: "getAll"
 }, {
+
+     /**
+     * @openapi
+     * /users/{id}:
+     *  get:
+     *    summary: Returns a single user with given id
+     *    tags:
+     *      - User
+     * 
+     *    parameters:
+     *      - name: id
+     *        in: path
+     *        description: The id of the user
+     *        required: true
+     * 
+     *    responses:
+     *      401:
+     *        description: Unauthorized exception
+     *      500:
+     *        description: Internal error
+     *      400:
+     *        description: No such user exception
+     *      200:
+     *        description: A JSON object of user
+     *        content:
+     *          application/json:
+     *            schema:
+     *              $ref: '#/components/schemas/user'
+     */
+
     method: "get",
     route: "/users/:id",
     controller: UserController,
     action: "get"
 }, {
+
+    /**
+     * @openapi
+     * /users:
+     *  post:
+     *    summary: Create new user
+     *    tags:
+     *      - User
+     * 
+     *    requestBody:
+     *      required: true
+     *      content:
+     *        application/json:
+     *          schema:
+     *            $ref: '#/components/schemas/createUser'
+     *            
+     * 
+     *    responses:
+     *      401:
+     *        description: Unauthorized exception
+     *      400:
+     *        description: Some errors occured
+     *      200:
+     *        description: User sucessfully created
+     *        content:
+     *          application/json:
+     *            schema:
+     *              $ref: '#/components/schemas/user'
+     */
+
     method: "post",
     route: "/users",
     controller: UserController,
     action: "create"
 }, {
+
+     /**
+     * @openapi
+     * /users/{id}:
+     *  put:
+     *    summary: Update user with given id
+     *    tags:
+     *      - User
+     * 
+     *    parameters:
+     *      - name: id
+     *        in: path
+     *        description: id of the user
+     *        required: true
+     * 
+     *    requestBody:
+     *      content:
+     *        application/json:
+     *          schema:
+     *            $ref: '#/components/schemas/updateUser'
+     * 
+     *    responses:
+     *      401:
+     *        description: Unauthorized exception
+     *      500:
+     *        description: Internal error
+     *      400:
+     *        description: No such user exception
+     *      200:
+     *        description: User succesfully updated
+     *        content:
+     *          application/json:
+     *            schema:
+     *              $ref: '#/components/schemas/user'
+     */
+
     method: "put", 
     route: "/users/:id",
     controller: UserController,
     action: "update"
 }, {
+
+     /**
+     * @openapi
+     * /users/{id}:
+     *  delete:
+     *    summary: Delete user with given id
+     *    tags:
+     *      - User
+     * 
+     *    parameters:
+     *      - name: id
+     *        in: path
+     *        description: id of the user
+     *        required: true
+     * 
+     *    responses:
+     *      401:
+     *        description: Unauthorized exception
+     *      500:
+     *        description: Internal error
+     *      400:
+     *        description: No such user exception
+     *      200:
+     *        description: User sucessfully deleted
+     *        content:
+     *          application/json:
+     *            schema:
+     *              $ref: '#/components/schemas/createUser'
+     */
+
     method: "delete",
     route: "/users/:id",
     controller: UserController,
