@@ -9,11 +9,11 @@ export class OrderService{
     private readonly _db = new DatabaseService()
 
     async getAll(){
-        return this._db.getAllOrders() as Promise<Order[]>
+        return this._db.getAllOrders()
     }
 
     async get(id: number) {
-        return this._db.getOrder(id) as Promise<Order>
+        return this._db.getOrder(id)
     }
 
     async create(cartId: number, details: string){

@@ -40,4 +40,17 @@ export class Cart {
  *           type: array
  *           items:
  *             $ref: '#/components/schemas/cartItem'
+ * 
+ * 
+ *     cart:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: integer
+ *         user:
+ *           $ref: '#/components/schemas/userSimplified'
+ *         items:
+ *           type: array
+ *           items:
+ *             $ref: '#/components/schemas/cartItem'
  */

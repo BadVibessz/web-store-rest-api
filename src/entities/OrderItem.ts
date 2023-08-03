@@ -26,6 +26,7 @@ export class OrderItem {
  *       properties:
  *         id:
  *           type: integer
+ *           default: 1
  *         product:
  *           $ref: '#/components/schemas/product'
  */

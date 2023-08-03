@@ -61,14 +61,19 @@ export class User {
  *       properties:
  *         id:
  *           type: integer
+ *           default: 1
  *         firstName: 
  *           type: string 
+ *           default: firstName
  *         lastName: 
  *           type: string 
+ *           default: lastName
  *         email: 
  *           type: string 
+ *           default: email@example.com
  *         password: 
  *           type: string 
+ *           default: hashedpassword
  *         carts:
  *           type: array
  *           items:
@@ -77,7 +82,6 @@ export class User {
  *           type: array
  *           items:
  *             $ref: '#/components/schemas/usersOrderOutput'
- * 
  * 
  *     updateUser:
  *       type: object
@@ -94,4 +98,23 @@ export class User {
  *         password: 
  *           type: string 
  *           default: newpassword   
+ * 
+ *     userSimplified:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: integer
+ *           default: 1
+ *         firstName: 
+ *           type: string 
+ *           default: firstName
+ *         lastName: 
+ *           type: string 
+ *           default: lastName
+ *         email: 
+ *           type: string 
+ *           default: email@example.com
+ *         password: 
+ *           type: string 
+ *           default: hashedpassword   
  */

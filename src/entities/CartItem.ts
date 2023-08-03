@@ -27,4 +27,18 @@ export class CartItem {
  *           type: integer
  *         product:
  *           $ref: '#/components/schemas/product'
+ *     createCartItem:
+ *       type: object
+ *       properties:
+ *         productId:
+ *           type: integer
+ *           default: 1
+ * 
+ *     deleteCartItem:
+ *       type: object
+ *       properties:
+ *         itemId:
+ *           type: integer
+ *           default: 1
+ * 
  */

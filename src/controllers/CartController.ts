@@ -46,7 +46,9 @@ export class CartController extends CRUDController{
 
             const userId = request.body.userId
         
-            const created = await this._cartService.create(userId)
+            console.log("USERS ID", userId)
+
+            const created = await this._cartService.create(parseInt(userId))
             if(!created) return response.status(400).json({message: "Something went wrong"})
 
             return response.status(200).json({message: "You have sucessfully crated new cart!", cart: created})
@@ -121,7 +123,7 @@ export class CartController extends CRUDController{
             const authenticated = this._authMiddleware.authenticate(request, response)
             if(!authenticated) return response.status(401).json({message: "User unauthorized"})
 
-            const id = parseInt(request.body.id)
+            const id = parseInt(request.params.id)
         
             const deleted = await this._cartService.delete(id)
             if(!deleted) return response.status(400).json({message: "No such cart"})

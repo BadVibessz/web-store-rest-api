@@ -41,7 +41,7 @@ export class CartService{
 
     async addItem(cartId: number, productId: number){
         
-        const cart = await this.get(cartId)
+        var cart = await this.get(cartId)
         if(!cart) return null
 
         const product = await this._db.getById("Product", productId) as Product
@@ -53,7 +53,13 @@ export class CartService{
 
         cart.items.push(item)
         
-        return this._db.updateCart(cart)
+        cart = await this._db.updateCart(cart)
+
+        cart.items.forEach(item =>{
+            item.cart = null // avoid circular dependency (json.stringify error)
+        })
+
+        return cart
     }
 
     async deleteItem(cartId: number, itemId: number){
@@ -72,9 +78,10 @@ export class CartService{
 
     async delete(id: number){
 
-        let cartToRemove = await this._db.getById("Cart", id) as Cart
+        let cartToRemove = await this._db.getCart(id)
         if (!cartToRemove) return null
         
-        return this._db.deleteCart(cartToRemove)
+        if(!this._db.deleteCart(cartToRemove)) return null
+        return cartToRemove
     }
 }

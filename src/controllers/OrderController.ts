@@ -85,7 +85,7 @@ export class OrderController extends CRUDController{
             const authenticated = this._authMiddleware.authenticate(request, response)
             if(!authenticated) return response.status(401).json({message: "User unauthorized"})
 
-            const id = request.body.id
+            const id = request.params.id
 
             const order = await this._orderService.delete(parseInt(id))
             if(!order) return response.status(400).json({message: "No such order"})

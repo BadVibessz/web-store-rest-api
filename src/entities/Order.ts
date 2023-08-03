@@ -11,7 +11,7 @@ export class Order {
     @Column("timestamptz")
     timeStamp: Date;
  
-    @Column("text")
+    @Column("text",{nullable: true })
     details: string
 
     @ManyToOne(() => User, (user) => user.orders, { onDelete: 'CASCADE' })
@@ -34,16 +34,41 @@ export class Order {
  *         cartId: 
  *           type: integer 
  *           default: 1
+ *         details: 
+ *           type: string 
+ *           default: some details provided
  * 
  *     usersOrderOutput:
  *       type: object
  *       properties:
  *         id:
  *           type: integer
+ *           default: 1
  *         timestamp:
  *           type: string
  *         details:
  *           type: string
+ *           default: some details for order provided
+ *         items:
+ *           type: array
+ *           items:
+ *             $ref: '#/components/schemas/orderItem'
+ * 
+ * 
+ *     updateOrder:
+ *       type: object
+ *       properties:
+ *         newDetails: 
+ *           type: string 
+ *           default: new details
+ * 
+ *     order:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: integer
+ *         user:
+ *           $ref: '#/components/schemas/userSimplified'
  *         items:
  *           type: array
  *           items:
