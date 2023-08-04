@@ -54,10 +54,11 @@ export class CartService{
         cart.items.push(item)
         
         cart = await this._db.updateCart(cart)
+        cart = await this._db.getCart(cart.id)
 
-        cart.items.forEach(item =>{
-            item.cart = null // avoid circular dependency (json.stringify error)
-        })
+        // cart.items.forEach(item =>{
+        //     item.cart = null // avoid circular dependency (json.stringify error)
+        // })
 
         return cart
     }

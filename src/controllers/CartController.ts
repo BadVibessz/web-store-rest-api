@@ -30,6 +30,9 @@ export class CartController extends CRUDController{
             if(!authenticated) return response.status(401).json({message: "User unauthorized"})
 
             const cart = await this._cartService.get(parseInt(request.params.id))
+
+            if(!cart) return response.status(400).json({message: "No such cart"})
+
             return response.status(200).json({cart: cart})
         }
         catch(e){
@@ -46,8 +49,6 @@ export class CartController extends CRUDController{
 
             const userId = request.body.userId
         
-            console.log("USERS ID", userId)
-
             const created = await this._cartService.create(parseInt(userId))
             if(!created) return response.status(400).json({message: "Something went wrong"})
 
@@ -55,7 +56,7 @@ export class CartController extends CRUDController{
         }
         catch(e){
             console.log(e)
-            return response.status(500).json({message: "Something went wrong"})
+            return response.status(400).json({message: "Something went wrong"})
         }
     }
 
@@ -86,21 +87,25 @@ export class CartController extends CRUDController{
 
             const cartId = parseInt(request.params.cartId)
             const productId = parseInt(request.body.productId)
+
+            console.log("CART", cartId)
+            console.log("PRODUCT", productId)
         
             const updated = await this._cartService.addItem(cartId, productId)
-            if(!updated) return response.status(400).json({message: "No such product"})
+            if(!updated) return response.status(400).json({message: "No such product or cart"})
 
             return response.status(200).json({message: "You have sucessfully updated cart!", cart: updated})
         }
         catch(e){
             console.log(e)
-            return response.status(500).json({message: "Something went wrong"})
+            return response.status(400).json({message: "Something went wrong"})
         }
 
     }
 
     async deleteItem(request: Request, response: Response){
         try{
+
             const authenticated = this._authMiddleware.authenticate(request, response)
             if(!authenticated) return response.status(401).json({message: "User unauthorized"})
 
@@ -108,13 +113,13 @@ export class CartController extends CRUDController{
             const itemId = parseInt(request.body.itemId)
         
             const updated = await this._cartService.deleteItem(cartId, itemId)
-            if(!updated) return response.status(400).json({message: "No such item"})
+            if(!updated) return response.status(400).json({message: "No such item or cart"})
 
             return response.status(200).json({message: "You have sucessfully updated cart!", cart: updated})
         }
         catch(e){
             console.log(e)
-            return response.status(500).json({message: "Something went wrong"})
+            return response.status(400).json({message: "Something went wrong"})
         }
     }
 
@@ -132,7 +137,7 @@ export class CartController extends CRUDController{
         }
         catch(e){
             console.log(e)
-            return response.status(500).json({message: "Something went wrong"})
+            return response.status(400).json({message: "Something went wrong"})
         }
     }
 

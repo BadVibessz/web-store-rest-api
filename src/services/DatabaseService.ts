@@ -131,7 +131,7 @@ export class DatabaseService{
     }
 
     async saveCart(cart: Cart){
-        this._cartItemRepository.save(cart.items)
+        await this._cartItemRepository.save(cart.items)
         return this._cartRepository.save(cart)
     }
 
