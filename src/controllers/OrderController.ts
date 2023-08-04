@@ -31,6 +31,9 @@ export class OrderController extends CRUDController{
             if(!authenticated) return response.status(401).json({message: "User unauthorized"})
 
             const order = await this._orderService.get(parseInt(request.params.id))
+
+            if(!order) return response.status(400).json({message: "No such order"})
+
             return response.status(200).json({order: order})
         }
         catch(e){
