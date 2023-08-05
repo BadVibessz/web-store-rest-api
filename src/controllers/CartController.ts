@@ -88,9 +88,6 @@ export class CartController extends CRUDController{
             const cartId = parseInt(request.params.cartId)
             const productId = parseInt(request.body.productId)
 
-            console.log("CART", cartId)
-            console.log("PRODUCT", productId)
-        
             const updated = await this._cartService.addItem(cartId, productId)
             if(!updated) return response.status(400).json({message: "No such product or cart"})
 
