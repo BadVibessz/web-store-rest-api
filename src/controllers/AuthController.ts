@@ -19,7 +19,7 @@ export class AuthController{ //todo: call authService?
 
             const success = await this._userService.create(firstName,lastName,email,password)
             
-            if(success) return response.status(200).json({message: "You have sucessfully registered!"})
+            if(success) return response.status(200).json({message: "You have sucessfully registered!", user: success})
             return response.status(400).json({message: "User with this email already exists"})
         }
         catch(e){

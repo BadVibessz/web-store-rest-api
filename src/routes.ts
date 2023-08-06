@@ -183,11 +183,70 @@ export const Routes = [
 
 // auth
 {
+
+    /**
+     * @openapi
+     * /auth/register:
+     *  post:
+     *    summary: Register
+     *    tags:
+     *      - Auth
+     * 
+     *    requestBody:
+     *      required: true
+     *      content:
+     *        application/json:
+     *          schema:
+     *            $ref: '#/components/schemas/createUser'
+     *            
+     * 
+     *    responses:
+     *      401:
+     *        description: Unauthorized exception
+     *      400:
+     *        description: Some errors occured
+     *      200:
+     *        description: You have successfully registered
+     *        content:
+     *          application/json:
+     *            schema:
+     *              $ref: '#/components/schemas/user'
+     */
+
     method: "post",
     route: "/auth/register",
     controller: AuthController,
     action: "register"
 },{
+
+
+    /**
+     * @openapi
+     * /auth/login:
+     *  post:
+     *    summary: Login
+     *    tags:
+     *      - Auth
+     * 
+     *    requestBody:
+     *      required: true
+     *      content:
+     *        application/json:
+     *          schema:
+     *            $ref: '#/components/schemas/login'
+     *            
+     * 
+     *    responses:
+     *      400:
+     *        description: Some errors occured
+     *      200:
+     *        description: You have successfully logged in
+     *        content:
+     *          application/json:
+     *            schema:
+     *              $ref: '#/components/schemas/token'
+     */
+
     method: "post",
     route: "/auth/login",
     controller: AuthController,

@@ -117,4 +117,22 @@ export class User {
  *         password: 
  *           type: string 
  *           default: hashedpassword   
+ * 
+ *     login:
+ *       type: object
+ *       properties:
+ *         email: 
+ *           type: string 
+ *           default: email@example.com
+ *         password: 
+ *           type: string 
+ *           default: yourpassword
+ * 
+ * 
+ *     token:
+ *       type: object
+ *       properties:
+ *         token: 
+ *           type: string 
+ *           default: some jwt token
  */
